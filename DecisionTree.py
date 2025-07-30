@@ -1,4 +1,5 @@
 import sys
+import math
 import numpy as np
 
 """
@@ -85,7 +86,7 @@ class DecisionTree():
             return left_dataset, right_dataset
 
         def entropy(self, y):
-                    """
+            """
             Computes the entropy of the given label values.
     
             Parameters:
@@ -96,10 +97,21 @@ class DecisionTree():
             """
             
             #TODO
-            
-            # Return the final entropy value
+            m = 0
+            n = 0
+            # counts the amount of each attribute within the list y
+            for num in y:
+                if num == y[0]:
+                    m +=1
+                elif num != y[0] :
+                    n +=1
+        
+            calculate_m = m/(m+n)
+            calculate_n = n/(m+n)
+            ent = (-calculate_m*math.log(calculate_m))-(calculate_n*math.log(calculate_n))
 
-            #return entropy
+            # Return the final entropy value
+            return ent
     
         def information_gain(self, parent, left, right):
             """
@@ -114,10 +126,18 @@ class DecisionTree():
                 information_gain (float): Information gain of the split.
             """
             #TODO
+            #first find entropy of parent,left and right
+            Hparent = self.entropy(self,parent)
+            Hleft = self.entropy(self, left)
+            Hright = self.entropy(self, right)
+            wparent = len(parent)
+            wleft = len(left)/wparent
+            wright = len(right)/wparent
+
+            information_gain = Hparent -((wleft*Hleft)+(wright*Hright))
 
             return information_gain
         
-
         def best_split(self, dataset, num_samples, num_features):
             """
             Finds the best split for the given dataset.
@@ -196,5 +216,6 @@ running the code
 if len(sys.argv) == 2:
     print(sys.argv[0], " ", sys.argv[1])
     run = DecisionTree(sys.argv[1],2,2)
+
 else:
     print("There is no datafile or too many files")
