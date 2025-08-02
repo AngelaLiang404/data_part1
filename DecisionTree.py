@@ -96,7 +96,6 @@ class DecisionTree():
                 entropy (float): Entropy of the given label values.
             """
             
-            #TODO
             m = 0
             n = 0
             # counts the amount of each attribute within the list y
@@ -125,7 +124,7 @@ class DecisionTree():
             Returns:
                 information_gain (float): Information gain of the split.
             """
-            #TODO
+
             #first find entropy of parent,left and right
             Hparent = self.entropy(self,parent)
             Hleft = self.entropy(self, left)
@@ -134,7 +133,7 @@ class DecisionTree():
             wleft = len(left)/wparent
             wright = len(right)/wparent
 
-            information_gain = Hparent -((wleft*Hleft)+(wright*Hright))
+            information_gain = Hparent - ((wleft*Hleft)+(wright*Hright))
 
             return information_gain
         
@@ -152,8 +151,12 @@ class DecisionTree():
                   left and right datasets.
             """
             best_split_gain=-1
+            value = 0
+            feature = list(range(num_features))
+
             for feature_index in range(num_features):
                 #TODO get the feature values
+                value = feature[feature_index]
                 # get left and right datasets
                 left_dataset, right_dataset = self.split_data(dataset, feature[feature_index])
                 # check if either datasets is empty
@@ -165,9 +168,20 @@ class DecisionTree():
                     # update the best split if conditions are met
                     if information_gain > best_split_gain:
                         #TODO: update the best_split_gain and the corresponding feature and threshold
-                        # adding more
-                        print("What is happening")
-        
+                        best_split_gain = information_gain
+                        feature_index+=1
+                        
+                        
+                direct = {
+                    "featureIndex": feature_index ,
+                    "threshold":  0,
+                    "gain": information_gain ,
+                    "left": left_dataset ,
+                    "right": right_dataset
+                }
+
+                return direct
+            
         """
         After finding best split then build the tree
         """
